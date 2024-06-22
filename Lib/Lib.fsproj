@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageId>LamgEnv</PackageId>
+    <Version>0.0.0</Version>
+    <Authors>Luis Ángel Méndez Gort</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <AssemblyName>LamgEnv</AssemblyName>
+    <RootNamespace>LamgEnv</RootNamespace>
+    <Title>Utility I/O functions in F#</Title>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Description>Utility I/O functions in F#</Description>
+    <PackageProjectUrl>https://github.com/lamg/LamgEnv</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/lamg/LamgEnv</RepositoryUrl>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+    <PackageIcon>logo.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="FsEnv.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    <None Include="..\docs\logo.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+</Project>
