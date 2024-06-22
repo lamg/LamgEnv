@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="FsEnv.fs" />
+    <Compile Include="LamgEnv.fs" />
   </ItemGroup>
 
   <ItemGroup>
