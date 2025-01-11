@@ -5,6 +5,11 @@ open System
 let getEnv s =
   Environment.GetEnvironmentVariable s |> Option.ofObj
 
+let getEnvF s =
+   match getEnv s with
+   | Some v -> v
+   | None -> failwith $"environment variable {s} not found"
+
 let setEnv (var, value) =
   Environment.SetEnvironmentVariable(var, value)
 
