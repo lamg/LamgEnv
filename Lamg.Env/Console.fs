@@ -1,23 +1,6 @@
-module LamgEnv
+module Lamg.Env.Console
 
 open System
-
-let getEnv s =
-  Environment.GetEnvironmentVariable s |> Option.ofObj
-
-let getEnvF s =
-   match getEnv s with
-   | Some v -> v
-   | None -> failwith $"environment variable {s} not found"
-
-let setEnv (var, value) =
-  Environment.SetEnvironmentVariable(var, value)
-
-let nowRFC3339 () =
-  DateTimeOffset.UtcNow.ToString("yyyy-MM-dd'T'HH:mm:ss.fffK")
-
-let nowUnix () =
-  DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds()
 
 let printColor (print: string -> unit) color s =
   let original = Console.ForegroundColor

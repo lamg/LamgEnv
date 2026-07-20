@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="dotenv.net" Version="4.0.2" />
+    <PackageVersion Include="Expecto" Version="11.0.0" />
+    <PackageVersion Include="FSharp.Core" Version="10.0.104" />
+    <PackageVersion Include="Unquote" Version="7.0.1" />
+  </ItemGroup>
+</Project>
