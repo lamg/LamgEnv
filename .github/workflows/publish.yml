@@ -7,18 +7,34 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/dotnet/sdk:10.0
+    permissions:
+      id-token: write # GitHub OIDC token for NuGet Trusted Publishing
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: test and publish Lamg.Env
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Test and pack
         run: |
           dotnet restore Lamg.Env.slnx
           dotnet build Lamg.Env.slnx -c Release --no-restore
           dotnet run --project Lamg.Env.Tests -c Release --no-build
           dotnet pack Lamg.Env/Lamg.Env.fsproj -c Release --no-build
-          dotnet nuget push Lamg.Env/nupkg/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          # nuget.org profile username (not email). Store as a repo secret.
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: NuGet push
+        run: >
+          dotnet nuget push Lamg.Env/nupkg/*.nupkg
+          --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
