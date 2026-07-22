@@ -1,10 +1,20 @@
+# Logo prompts
 
-original prompt:
+## 2026-07 environment icon (current)
+
+Concept: shell environment / config — curly braces wrapping a dollar sign on a teal–blue rounded square.
+
+Generation prompt:
 ```
-logo for F# library containing utility functions.
+Simple flat software library icon logo, square canvas. Minimal geometric design representing "environment variables" and configuration: a clean rounded square app icon with soft teal-to-blue gradient, centered white abstract symbol combining a curly braces pair and a small terminal dollar-sign motif, modern tech brand mark style like a developer tool favicon. High contrast, lots of negative space, no text letters, no photorealism, no 3D clutter, no dense patterns. Vector-like flat illustration, crisp edges, suitable as a tiny README badge logo.
 ```
 
-revised prompt
+Edit pass:
 ```
-Create a logo for a software library. The logo should visually represent the concept of utility functions, perhaps with overlapping geometric shapes like squares and circles to symbolize the diverse functions in the library. It should incorporate the symbol F# prominently within the design, weaving it into the overall aesthetic. The color scheme should reflect a balanced mix of professional and innovative tones, perhaps using blues or purples for the geometric shapes and a contrasting color for the F# symbol. The logo should be sleek, modern, and encapsulate the technological essence of a programming library.
+Simplify this app icon: keep the teal-to-blue rounded square, keep the large white curly braces, replace the nested double-dollar mess with one single clean white dollar-sign (shell $) centered between the braces. Flat vector style, crisp, no extra small dollar inside, no text, same overall composition and colors.
 ```
+
+Exports:
+- `logo.png` — 256×256 (NuGet package icon)
+- `logo_small.png` — 100×100 (README badge)
+- `logo-prev-576.png` — previous logo backup

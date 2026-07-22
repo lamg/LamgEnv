@@ -98,7 +98,7 @@ dotnet pack Lamg.Env/Lamg.Env.fsproj -c Release
 
 [Apache 2.0][apache2]
 
-[logo]: https://raw.githubusercontent.com/lamg/LamgEnv/refs/heads/master/docs/logo.png
+[logo]: https://raw.githubusercontent.com/lamg/LamgEnv/refs/heads/master/docs/logo_small.png
 [lamg-env]: https://www.nuget.org/packages/Lamg.Env
 [apache2]: https://opensource.org/license/apache-2-0
 [nuget-version]: https://img.shields.io/nuget/v/Lamg.Env?style=flat-square
