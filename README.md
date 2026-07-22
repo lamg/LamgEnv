@@ -1,3 +1,12 @@
+[![logo][logo]][lamg-env]
+
+[![.NET][dotnet-badge]](https://dotnet.microsoft.com/)
+[![F#][fs-badge]](https://fsharp.org/)
+[![License: Apache2][apache-badge]][apache2]
+[![NuGet Version][nuget-version]][lamg-env]
+[![NuGet Downloads][nuget-downloads]][lamg-env]
+![Publish][publish]
+
 # Lamg.Env
 
 F# library for environment/secret loading, `result` / `taskResult` computation expressions, and generic SQLite transaction helpers.
@@ -84,3 +93,17 @@ dotnet build Lamg.Env.slnx
 dotnet run --project Lamg.Env.Tests
 dotnet pack Lamg.Env/Lamg.Env.fsproj -c Release
 ```
+
+## License
+
+[Apache 2.0][apache2]
+
+[logo]: https://raw.githubusercontent.com/lamg/LamgEnv/refs/heads/master/docs/logo.png
+[lamg-env]: https://www.nuget.org/packages/Lamg.Env
+[apache2]: https://opensource.org/license/apache-2-0
+[nuget-version]: https://img.shields.io/nuget/v/Lamg.Env?style=flat-square
+[nuget-downloads]: https://img.shields.io/nuget/dt/Lamg.Env?style=flat-square
+[publish]: https://img.shields.io/github/actions/workflow/status/lamg/LamgEnv/publish.yml?style=flat-square&label=publish
+[dotnet-badge]: https://img.shields.io/badge/.NET-10.0-blue?style=flat-square
+[apache-badge]: https://img.shields.io/badge/License-Apache2-yellow.svg?style=flat-square
+[fs-badge]: https://img.shields.io/badge/Language-F%23-blue?style=flat-square
