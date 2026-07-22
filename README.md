@@ -1,6 +1,6 @@
 # Lamg.Env
 
-F# library for environment/secret loading and `result` / `taskResult` computation expressions.
+F# library for environment/secret loading, `result` / `taskResult` computation expressions, and generic SQLite transaction helpers.
 
 ## Install
 
@@ -16,6 +16,7 @@ dotnet add package Lamg.Env
 | `Lamg.Env.Secrets` | `dotenv.net` load + 1Password CLI (`op`) |
 | `Lamg.Env.Console` | Colored console helpers |
 | `Lamg.Env.Env` | Env vars (`getEnv`, `requireEnv`, …) + small time helpers |
+| `Lamg.Env.Sqlite` | Generic `dbTxn` / nested CE for SQLProvider (or any) contexts |
 
 ## Secrets
 
@@ -48,6 +49,33 @@ let work = taskResult {
   return a + b
 }
 ```
+
+## SQLite / SQLProvider transactions (`Lamg.Env.Sqlite`)
+
+No SQLProvider or SQLite package dependency — supply a `DbSession<'ctx>` that knows how to open and commit your app context:
+
+```fsharp
+open Lamg.Env.Sqlite
+
+// Example with a SQLProvider-generated DataContext:
+let session: DbSession<MyDb.dataContext> =
+  { connect = fun path -> MyDb.GetDataContext($"Data Source={path};Foreign Keys=True")
+    submitUpdates = fun ctx -> ctx.SubmitUpdates() }
+
+let db = dbTxn session "app.db"
+let readDb = readOnlyDbTxn session "app.db"
+
+let! rows = db.Run(fun ctx ->
+  // stage writes on ctx; outermost successful write Run calls submitUpdates
+  ...)
+```
+
+Semantics:
+
+- Nested `Run` on the same DB path reuses the active context when modes allow
+- Read-only may nest under write; write under read-only → `DbError.ReadWriteInsideReadOnly`
+- Outermost successful **read-write** run calls `submitUpdates`
+- Per-path write gate serializes outermost write transactions
 
 ## Develop
 

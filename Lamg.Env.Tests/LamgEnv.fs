@@ -40,7 +40,23 @@ let tests =
           testCase "setEnv and getEnv round-trip" (fun _ -> Lamg.Env.Env.Tests.``setEnv and getEnv round-trip`` ())
 
           testCase "requireEnvs collects values or lists missing" (fun _ ->
-            Lamg.Env.Env.Tests.``requireEnvs collects values or lists missing`` ()) ] ]
+            Lamg.Env.Env.Tests.``requireEnvs collects values or lists missing`` ()) ]
+
+      testList
+        "Sqlite"
+        [ testCase "read-write Run calls submitUpdates once on success" (fun _ ->
+            Lamg.Env.Sqlite.Tests.``read-write Run calls submitUpdates once on success`` ())
+
+          testCase "read-only Run does not submit" (fun _ -> Lamg.Env.Sqlite.Tests.``read-only Run does not submit`` ())
+
+          testCase "nested write under write reuses context and submits once" (fun _ ->
+            Lamg.Env.Sqlite.Tests.``nested write under write reuses context and submits once`` ())
+
+          testCase "nested write under read-only returns ReadWriteInsideReadOnly" (fun _ ->
+            Lamg.Env.Sqlite.Tests.``nested write under read-only returns ReadWriteInsideReadOnly`` ())
+
+          testCase "exception from operation yields DbError.Sql" (fun _ ->
+            Lamg.Env.Sqlite.Tests.``exception from operation yields DbError.Sql`` ()) ] ]
 
 [<EntryPoint>]
 let main argv = runTestsWithCLIArgs [] argv tests
