@@ -2,7 +2,14 @@ module Lamg.Env.Env
 
 open System
 
-/// Read an environment variable. Trims the value; returns None if missing, empty, or whitespace-only.
+/// <summary>
+/// Read an environment variable with normalized value.
+/// </summary>
+/// <remarks>
+/// Always trims surrounding whitespace. Returns <c>None</c> when the variable is unset,
+/// empty, or whitespace-only. When <c>Some</c>, the string is already trimmed — do not
+/// call <c>Trim()</c> or re-check for blank values after <c>getEnv</c>.
+/// </remarks>
 let getEnv s =
   match Environment.GetEnvironmentVariable s with
   | null -> None
@@ -11,18 +18,36 @@ let getEnv s =
 
     if t.Length = 0 then None else Some t
 
+/// <summary>
+/// Like <see cref="getEnv"/> but fails with an exception if the variable is missing or blank.
+/// </summary>
+/// <remarks>
+/// The returned string is already trimmed (see <see cref="getEnv"/>).
+/// </remarks>
 let getEnvF s =
   match getEnv s with
   | Some v -> v
   | None -> failwith $"environment variable {s} not found"
 
-/// Require an environment variable (non-empty after trim).
+/// <summary>
+/// Require an environment variable; returns <c>Error</c> if missing or blank after trim.
+/// </summary>
+/// <remarks>
+/// On <c>Ok</c>, the value is already trimmed (see <see cref="getEnv"/>). Callers should not
+/// trim again or test for empty/whitespace.
+/// </remarks>
 let requireEnv (name: string) : Result<string, string> =
   match getEnv name with
   | Some v -> Ok v
   | None -> Error $"environment variable '{name}' is missing or empty"
 
-/// Require all named environment variables; returns name → trimmed value map.
+/// <summary>
+/// Require all named environment variables; returns name → value map.
+/// </summary>
+/// <remarks>
+/// Values are already trimmed (via <see cref="getEnv"/>). Missing or blank names appear
+/// in the <c>Error</c> message. Do not re-trim map values at the call site.
+/// </remarks>
 let requireEnvs (names: string list) : Result<Map<string, string>, string> =
   let missing = names |> List.filter (fun name -> getEnv name |> Option.isNone)
 

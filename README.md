@@ -24,7 +24,7 @@ dotnet add package Lamg.Env
 | `Lamg.Env.Result` | `result` and `taskResult` computation expressions |
 | `Lamg.Env.Secrets` | `dotenv.net` load + 1Password CLI (`op`) |
 | `Lamg.Env.Console` | Colored console helpers |
-| `Lamg.Env.Env` | Env vars (`getEnv`, `requireEnv`, …) + small time helpers |
+| `Lamg.Env.Env` | Env vars (`getEnv`, `requireEnv`, …) + small time helpers. **`getEnv` trims and returns `None` for blank values** — do not trim or re-check emptiness after calling it. |
 | `Lamg.Env.Sqlite` | Generic `dbTxn` / nested CE for SQLProvider (or any) contexts |
 
 ## Secrets
