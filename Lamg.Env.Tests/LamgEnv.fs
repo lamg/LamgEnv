@@ -34,6 +34,12 @@ let tests =
         [ testCase "getEnv returns None when missing" (fun _ ->
             Lamg.Env.Env.Tests.``getEnv returns None when missing`` ())
 
+          testCase "getEnv returns None when empty or whitespace" (fun _ ->
+            Lamg.Env.Env.Tests.``getEnv returns None when empty or whitespace`` ())
+
+          testCase "getEnv trims surrounding whitespace" (fun _ ->
+            Lamg.Env.Env.Tests.``getEnv trims surrounding whitespace`` ())
+
           testCase "getEnvF fails when variable is missing" (fun _ ->
             Lamg.Env.Env.Tests.``getEnvF fails when variable is missing`` ())
 

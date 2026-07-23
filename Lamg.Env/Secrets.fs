@@ -64,7 +64,8 @@ let requireFields (required: string list) (fields: Map<string, string>) : Result
       | None -> Some label)
 
   if missing.IsEmpty then
-    Ok fields
+    // Trim values so callers match getEnv semantics (no extra Trim needed).
+    fields |> Map.map (fun _ v -> if isNull v then v else v.Trim()) |> Ok
   else
     let missingList = String.concat ", " missing
     Error $"1Password fields not found or empty: {missingList}"

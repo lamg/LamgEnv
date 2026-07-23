@@ -2,21 +2,27 @@ module Lamg.Env.Env
 
 open System
 
+/// Read an environment variable. Trims the value; returns None if missing, empty, or whitespace-only.
 let getEnv s =
-  Environment.GetEnvironmentVariable s |> Option.ofObj
+  match Environment.GetEnvironmentVariable s with
+  | null -> None
+  | v ->
+    let t = v.Trim()
+
+    if t.Length = 0 then None else Some t
 
 let getEnvF s =
   match getEnv s with
   | Some v -> v
   | None -> failwith $"environment variable {s} not found"
 
-/// Require an environment variable.
+/// Require an environment variable (non-empty after trim).
 let requireEnv (name: string) : Result<string, string> =
   match getEnv name with
   | Some v -> Ok v
   | None -> Error $"environment variable '{name}' is missing or empty"
 
-/// Require all named environment variables; returns name → value map.
+/// Require all named environment variables; returns name → trimmed value map.
 let requireEnvs (names: string list) : Result<Map<string, string>, string> =
   let missing = names |> List.filter (fun name -> getEnv name |> Option.isNone)
 
@@ -47,6 +53,26 @@ module Tests =
     let name = uniqueName ()
     Environment.SetEnvironmentVariable(name, null)
     test <@ getEnv name = None @>
+
+  let ``getEnv returns None when empty or whitespace`` () =
+    let name = uniqueName ()
+
+    try
+      Environment.SetEnvironmentVariable(name, "")
+      test <@ getEnv name = None @>
+      Environment.SetEnvironmentVariable(name, "   ")
+      test <@ getEnv name = None @>
+    finally
+      Environment.SetEnvironmentVariable(name, null)
+
+  let ``getEnv trims surrounding whitespace`` () =
+    let name = uniqueName ()
+
+    try
+      Environment.SetEnvironmentVariable(name, "  value  ")
+      test <@ getEnv name = Some "value" @>
+    finally
+      Environment.SetEnvironmentVariable(name, null)
 
   let ``getEnvF fails when variable is missing`` () =
     let name = uniqueName ()
