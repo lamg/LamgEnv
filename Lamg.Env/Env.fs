@@ -63,8 +63,12 @@ let requireEnvs (names: string list) : Result<Map<string, string>, string> =
 let setEnv (var, value) =
   Environment.SetEnvironmentVariable(var, value)
 
-let nowRFC3339 () =
-  DateTimeOffset.UtcNow.ToString "yyyy-MM-dd'T'HH:mm:ssK"
+/// Format a timestamp as RFC3339 without fractional seconds (e.g. 2026-07-23T12:00:00+00:00).
+let toRFC3339 (value: DateTimeOffset) =
+  value.ToString("yyyy-MM-dd'T'HH:mm:ssK", Globalization.CultureInfo.InvariantCulture)
+
+/// Current UTC time as RFC3339 (see <see cref="toRFC3339"/>). Prefer <c>toRFC3339</c> when the clock is injected.
+let nowRFC3339 () = toRFC3339 DateTimeOffset.UtcNow
 
 let nowUnix () =
   DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds()
